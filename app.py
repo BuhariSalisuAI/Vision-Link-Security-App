@@ -4,17 +4,28 @@ import pandas as pd
 # Page Setup
 st.set_page_config(page_title="VISION-LINK OS", layout="wide")
 
-# CSS
+# CSS - Mun gyara shi don rubutu ya zama baƙi koyaushe
 st.markdown("""
     <style>
-    .stApp { background-color: #f5f6f8; width: 100%; }
-    div[data-testid="stSidebar"] { background-color: #ffffff; border-right: 1px solid #e0e0e0; }
+    /* Canza launin rubutu zuwa baki domin ya fito a kan kowane background */
+    .stApp { 
+        background-color: #f5f6f8; 
+        color: #000000; 
+    }
+    div[data-testid="stSidebar"] { 
+        background-color: #ffffff; 
+        border-right: 1px solid #e0e0e0; 
+    }
+    /* Tabbatar da header ma baki ne */
+    h1, h2, h3, p, div {
+        color: #000000 !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
 # Sidebar
 with st.sidebar:
-    st.title("🛡️ SECURITY OPS")
+    st.markdown("<h1 style='color: black;'>🛡️ SECURITY OPS</h1>", unsafe_allow_html=True)
     menu = st.radio("Navigation", [
         "Operations Overview", "Camera Feeds", "Location Risk", 
         "Incident Log", "Dispatch Center", "Live Detection"
@@ -34,4 +45,3 @@ elif menu == "Live Detection":
     st.warning("Live AI Model: System Initializing...")
 else:
     st.write("Module under construction.")
-  

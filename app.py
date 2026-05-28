@@ -2,57 +2,51 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# Page Setup
+# 1. Page Configuration
 st.set_page_config(page_title="VISION-LINK OS", layout="wide")
 
-# CSS 
+# 2. Advanced CSS for Monday.com Vibes
 st.markdown("""
     <style>
     .stApp { background-color: #f6f7f8; }
-    .card { background-color: #ffffff; padding: 20px; border-radius: 12px; border: 1px solid #dcdcdc; margin-bottom: 20px; color: #000000; }
-    h1, h2, h3, p { color: #000000 !important; }
+    .card { background-color: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0; box-shadow: 0 1px 2px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .sidebar .stRadio { font-weight: bold; }
+    h1 { color: #1a1d21 !important; font-size: 24px !important; }
+    h3 { color: #555 !important; font-size: 16px !important; }
     </style>
 """, unsafe_allow_html=True)
 
-# Sidebar - Menu mai Personal Protection
+# 3. Sidebar (Left Menu)
 with st.sidebar:
-    st.markdown("## 🛡️ SECURITY OPS")
-    st.caption("AI Threat Detection System")
+    st.markdown("## 🛡️ VISION-LINK OS")
     st.markdown("---")
-    
-    menu_options = [
+    menu = st.radio("Navigation", [
         "Operations Overview", "Camera Feeds", "Personal Protection", 
-        "Location Risk", "Incident Log", "Dispatch Center", 
-        "Evidence Archive", "Ultralytics HUB", "Live Detection", "Presentation"
-    ]
-    
-    menu = st.radio("Navigation", menu_options)
+        "Location Risk", "Incident Log", "Live Detection"
+    ])
     st.markdown("---")
-    st.success("System Status: Active")
+    st.info("System Ready")
 
-# Main Interface
-st.title(f"📊 {menu}")
+# 4. Main Interface (Grid Layout)
+col1, col2 = st.columns([3, 1]) # Raba shafin gida biyu (Grid)
 
-# Dashboard Logic - Kowanne menu yana da abin da zai nuna
-if menu == "Operations Overview":
-    c1, c2, c3 = st.columns(3)
-    c1.markdown('<div class="card"><h3>Total Incidents</h3><h1>25</h1></div>', unsafe_allow_html=True)
-    c2.markdown('<div class="card"><h3>Active Dispatches</h3><h1>5</h1></div>', unsafe_allow_html=True)
-    c3.markdown('<div class="card"><h3>Camera Status</h3><h1>3/6</h1></div>', unsafe_allow_html=True)
+with col1:
+    st.title(f"📊 {menu}")
     
-    st.markdown('<div class="card"><h3>Incidents by Severity</h3>', unsafe_allow_html=True)
-    df = pd.DataFrame({'Severity': ['High', 'Critical', 'Medium', 'Low'], 'Count': [2, 2, 11, 10]})
-    fig = px.bar(df, x='Severity', y='Count', color='Severity', text_auto=True)
-    fig.update_layout(showlegend=False, plot_bgcolor='white', paper_bgcolor='white')
-    st.plotly_chart(fig, use_container_width=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    if menu == "Operations Overview":
+        # Metrics Row
+        m1, m2, m3 = st.columns(3)
+        m1.metric("Incidents", "25", "12%")
+        m2.metric("Dispatches", "5", "0")
+        m3.metric("Camera", "3/6", "50%")
+        
+        st.markdown('<div class="card"><h3>Severity Distribution</h3></div>', unsafe_allow_html=True)
+        df = pd.DataFrame({'S': ['High', 'Critical', 'Medium', 'Low'], 'C': [2, 2, 11, 10]})
+        fig = px.bar(df, x='S', y='C', color='S')
+        st.plotly_chart(fig, use_container_width=True)
 
-elif menu == "Personal Protection":
-    st.markdown('<div class="card"><h3>Personal Protection Module</h3><p>Monitoring biometric safety and individual threat levels.</p></div>', unsafe_allow_html=True)
-
-elif menu == "Camera Feeds":
-    st.markdown('<div class="card"><h3>Camera Feeds</h3><p>Live stream integration active for all sectors.</p></div>', unsafe_allow_html=True)
-
-else:
-    st.markdown(f'<div class="card"><h3>{menu}</h3><p>Module active and monitoring.</p></div>', unsafe_allow_html=True)
+with col2:
+    # Right Sidebar (AI Insights Panel)
+    st.markdown('<div class="card"><h3>🤖 AI Insights</h3><p>System is stable.</p><hr><p><b>Last Update:</b> 10:32 AM</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="card"><h3>🚀 Deployment</h3><p>Kaduna Conference OS: <b>Active</b></p></div>', unsafe_allow_html=True)
     

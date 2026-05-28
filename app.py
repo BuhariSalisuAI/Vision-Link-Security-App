@@ -1,75 +1,54 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
 # Page Setup
-st.set_page_config(page_title="VISION-LINK OS", layout="wide", page_icon="🛡️")
+st.set_page_config(page_title="VISION-LINK OS", layout="wide")
 
-# CSS - An tabbatar da rubutu ya zama baƙi koyaushe don kaucewa farin allo
+# CSS
 st.markdown("""
     <style>
     .stApp { background-color: #f6f7f8; }
-    
-    /* Card Styles */
-    .card { 
-        background-color: #ffffff; 
-        padding: 20px; 
-        border-radius: 12px; 
-        border: 1px solid #dcdcdc; 
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-        margin-bottom: 20px;
-        color: #000000 !important;
-    }
-    
-    /* Forced Text Color for all elements */
-    h1, h2, h3, p, div, span, label {
-        color: #000000 !important;
-    }
+    .card { background-color: #ffffff; padding: 20px; border-radius: 12px; border: 1px solid #dcdcdc; margin-bottom: 20px; }
+    h1, h2, h3, p { color: #000000 !important; }
     </style>
 """, unsafe_allow_html=True)
 
-# Sidebar - Professional Menu
+# Sidebar - Cikakken Menu
 with st.sidebar:
     st.markdown("## 🛡️ SECURITY OPS")
     st.caption("AI Threat Detection System")
     st.markdown("---")
     
-    menu_items = {
-        "Operations Overview": "📊",
-        "Camera Feeds": "📷",
-        "Location Risk": "📍",
-        "Incident Log": "⚠️",
-        "Dispatch Center": "📻",
-        "Evidence Archive": "📂",
-        "Ultralytics HUB": "⚡",
-        "Live Detection": "🎯",
-        "Presentation": "📈"
-    }
+    menu_options = [
+        "Operations Overview", "Camera Feeds", "Location Risk", 
+        "Incident Log", "Dispatch Center", "Evidence Archive", 
+        "Ultralytics HUB", "Live Detection", "Presentation"
+    ]
     
-    selected_menu = st.radio("Navigation", list(menu_items.keys()), 
-                             format_func=lambda x: f"{menu_items[x]} {x}")
-    
+    # Menu Selection
+    menu = st.radio("Navigation", menu_options)
     st.markdown("---")
     st.success("System Status: Active")
 
 # Main Interface
-st.markdown(f"<h1>{menu_items.get(selected_menu, '🛡️')} {selected_menu}</h1>", unsafe_allow_html=True)
+st.title(f"📊 {menu}")
 
-# Dashboard Logic
-if selected_menu == "Operations Overview":
+if menu == "Operations Overview":
+    # Metrics
     c1, c2, c3 = st.columns(3)
-    c1.markdown('<div class="card"><h3>Total Incidents</h3><h1>25</h1><p>21 active detections</p></div>', unsafe_allow_html=True)
-    c2.markdown('<div class="card"><h3>Active Dispatches</h3><h1>5</h1><p>1 pending response</p></div>', unsafe_allow_html=True)
-    c3.markdown('<div class="card"><h3>Camera Status</h3><h1>3/6</h1><p>50% operational</p></div>', unsafe_allow_html=True)
+    c1.markdown('<div class="card"><h3>Total Incidents</h3><h1>25</h1></div>', unsafe_allow_html=True)
+    c2.markdown('<div class="card"><h3>Active Dispatches</h3><h1>5</h1></div>', unsafe_allow_html=True)
+    c3.markdown('<div class="card"><h3>Camera Status</h3><h1>3/6</h1></div>', unsafe_allow_html=True)
     
+    # Vertical Chart (Plotly)
     st.markdown('<div class="card"><h3>Incidents by Severity</h3>', unsafe_allow_html=True)
-    chart_data = pd.DataFrame([2, 2, 11, 10], index=["High", "Critical", "Medium", "Low"])
-    st.bar_chart(chart_data)
+    df = pd.DataFrame({'Severity': ['High', 'Critical', 'Medium', 'Low'], 'Count': [2, 2, 11, 10]})
+    fig = px.bar(df, x='Severity', y='Count', color='Severity', text_auto=True)
+    fig.update_layout(showlegend=False, plot_bgcolor='white', paper_bgcolor='white')
+    st.plotly_chart(fig, use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-elif selected_menu == "Live Detection":
-    st.markdown('<div class="card"><h3>Live AI Model</h3><p>Model: YOLOv8n (87.5% mAP50)</p></div>', unsafe_allow_html=True)
-    st.warning("System Initializing...")
-
 else:
-    st.markdown(f'<div class="card"><h3>{selected_menu}</h3><p>Module under construction.</p></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="card"><h3>{menu} Module</h3><p>This module is currently being configured for the command center.</p></div>', unsafe_allow_html=True)
     

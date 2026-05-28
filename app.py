@@ -1,38 +1,80 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(layout="wide")
+# Page Configuration
+st.set_page_config(page_title="VISION-LINK OS", layout="wide", page_icon="🛡️")
 
-# CSS don layout na Monday.com
+# CSS for Monday.com Vibes
 st.markdown("""
     <style>
-    .card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #e0e0e0; margin-bottom: 15px; }
-    .metric-box { font-size: 20px; font-weight: bold; }
+    /* Global Styles */
+    .stApp { background-color: #f6f7f8; }
+    
+    /* Card Component */
+    .card { 
+        background-color: #ffffff; 
+        padding: 20px; 
+        border-radius: 10px; 
+        border: 1px solid #e0e0e0; 
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        margin-bottom: 20px;
+    }
+    
+    /* Sidebar styling */
+    section[data-testid="stSidebar"] { background-color: #fcfcfc; }
+    
+    /* Tab Styling */
+    .stTabs [data-baseweb="tab-list"] { gap: 10px; }
+    .stTabs [data-baseweb="tab"] { background-color: #ffffff; border-radius: 8px; border: 1px solid #e0e0e0; }
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🛡️ Security Operations")
+# Sidebar - Professional Menu
+with st.sidebar:
+    st.markdown("## 🛡️ SECURITY OPS")
+    st.caption("AI Threat Detection System")
+    st.markdown("---")
+    
+    menu_items = {
+        "Operations Overview": "📊",
+        "Camera Feeds": "📷",
+        "Location Risk": "📍",
+        "Incident Log": "⚠️",
+        "Dispatch Center": "📻",
+        "Evidence Archive": "📂",
+        "Ultralytics HUB": "⚡",
+        "Live Detection": "🎯",
+        "Presentation": "📈"
+    }
+    
+    selected_menu = st.radio("Navigation", list(menu_items.keys()), 
+                             format_func=lambda x: f"{menu_items[x]} {x}")
+    
+    st.markdown("---")
+    st.success("System Status: Active")
+    st.write("Live Connection")
 
-# Raba shafin gida biyu (kamar hoto)
-col_left, col_right = st.columns([1, 2])
+# Main Interface
+st.title(f"{menu_items.get(selected_menu, '🛡️')} {selected_menu}")
 
-with col_left:
-    st.markdown('<div class="card"><h3>Developer</h3><p>Buhari Salisu - AI Systems Engineer</p><p>Status: Production Ready 🟢</p></div>', unsafe_allow_html=True)
-    st.info("Deployment Steps for Hugging Face are active.")
-
-with col_right:
+# Dashboard Logic
+if selected_menu == "Operations Overview":
     # Metrics
     c1, c2, c3 = st.columns(3)
-    c1.markdown('<div class="card">Total Incidents<br><b>25</b></div>', unsafe_allow_html=True)
-    c2.markdown('<div class="card">Active Dispatches<br><b>5</b></div>', unsafe_allow_html=True)
-    c3.markdown('<div class="card">Camera Status<br><b>3/6</b></div>', unsafe_allow_html=True)
+    c1.markdown('<div class="card"><h3>Total Incidents</h3><h1>25</h1><p>21 active detections</p></div>', unsafe_allow_html=True)
+    c2.markdown('<div class="card"><h3>Active Dispatches</h3><h1>5</h1><p>1 pending response</p></div>', unsafe_allow_html=True)
+    c3.markdown('<div class="card"><h3>Camera Status</h3><h1>3/6</h1><p>50% operational</p></div>', unsafe_allow_html=True)
     
-    # Charts (Misali)
+    # Graphs
     st.markdown('<div class="card"><h3>Incidents by Severity</h3>', unsafe_allow_html=True)
-    chart_data = pd.DataFrame([2, 2, 11, 10], index=["High", "Critical", "Medium", "Low"])
-    st.bar_chart(chart_data)
+    st.bar_chart(pd.DataFrame([2, 2, 11, 10], index=["High", "Critical", "Medium", "Low"]))
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # Recent Activity
-    st.markdown('<div class="card"><h3>Recent Activity</h3><p>⚠️ person detected at North Gate</p><p>⚠️ bottle detected at North Gate</p></div>', unsafe_allow_html=True)
+elif selected_menu == "Live Detection":
+    st.warning("Live AI Model: System Initializing...")
+    st.markdown('<div class="card"><h3>Model Performance</h3><p>Model: YOLOv8n (87.5% mAP50)</p></div>', unsafe_allow_html=True)
+
+else:
+    st.info(f"The {selected_menu} module is under active development.")
+    st.markdown('<div class="card"><h3>Work in Progress</h3><p>Stay tuned for updates.</p></div>', unsafe_allow_html=True)
     
